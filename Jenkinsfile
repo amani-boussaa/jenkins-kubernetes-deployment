@@ -11,27 +11,27 @@ pipeline {
 
     stage('Checkout Source') {
       steps {
-       git branch: 'main',
-      credentialsId: 'github-credentials',
-      url: 'https://github.com/amani-boussaa/jenkins-kubernetes-deployment.git'
+        git branch: 'main',
+        credentialsId: 'github-credentials',
+        url: 'https://github.com/amani-boussaa/jenkins-kubernetes-deployment.git'
       }
     }
 
     stage('Build image') {
-      steps{
+      steps {
         script {
-      dockerImage = docker.build dockerimagename, "--path-to-docker-executable C:\Program Files\Docker\Docker\resources\bin\docker.exe"
+          dockerImage = docker.build(dockerimagename)
         }
       }
     }
 
     stage('Pushing Image') {
       environment {
-               registryCredential = 'dockerhub-credentials'
-           }
-      steps{
+        registryCredential = 'dockerhub-credentials'
+      }
+      steps {
         script {
-          docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
+          docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
             dockerImage.push("latest")
           }
         }
@@ -47,5 +47,4 @@ pipeline {
     }
 
   }
-
 }
