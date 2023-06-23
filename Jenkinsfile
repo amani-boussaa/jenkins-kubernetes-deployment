@@ -9,11 +9,12 @@ pipeline {
 
   stages {
 
-    steps {
-            git branch: 'main',
-            credentialsId: 'github-credentials',
-            url: 'https://github.com/amani-boussaa/jenkins-kubernetes-deployment.git'
-        }
+    stage('Checkout Source') {
+      steps {
+       git branch: 'main',
+      credentialsId: 'github-credentials',
+      url: 'https://github.com/amani-boussaa/jenkins-kubernetes-deployment.git'
+      }
     }
 
     stage('Build image') {
