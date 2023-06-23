@@ -20,7 +20,7 @@ pipeline {
     stage('Build image') {
       steps{
         script {
-          dockerImage = docker.build dockerimagename
+      dockerImage = docker.build dockerimagename, "--path-to-docker-executable C:\Program Files\Docker\Docker\resources\bin\docker.exe"
         }
       }
     }
