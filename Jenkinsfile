@@ -19,9 +19,9 @@ pipeline {
 
     stage('Build image') {
       steps {
-        script {
-          dockerImage = docker.build(dockerimagename)
-        }
+                sh 'docker build -t amaniboussaa/react-app .'
+
+       
       }
     }
 
