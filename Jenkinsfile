@@ -4,8 +4,7 @@ pipeline {
     dockerImage = ""
   }
 
-  agent { node { label 'docker' } }
-
+agent none
   stages {
     stage('Checkout Source') {
       steps {
