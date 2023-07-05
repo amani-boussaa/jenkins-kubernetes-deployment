@@ -1,24 +1,27 @@
 pipeline {
-
   environment {
     dockerimagename = "amani-boussaa/react-app2"
     dockerImage = ""
   }
 
-  agent any
+  agent {
+    docker {
+      image 'docker:latest'
+      args '-v /var/run/docker.sock:/var/run/docker.sock'
+    }
+  }
 
   stages {
-
     stage('Checkout Source') {
       steps {
-         git branch: 'main',
+        git branch: 'main',
         credentialsId: 'github-credentials',
         url: 'https://github.com/amani-boussaa/jenkins-kubernetes-deployment.git'
       }
     }
 
     stage('Build image') {
-      steps{
+      steps {
         script {
           dockerImage = docker.build dockerimagename
         }
@@ -27,12 +30,12 @@ pipeline {
 
     stage('Pushing Image') {
       environment {
-               registryCredential = 'dockerhub-credentials'
-           }
-      steps{
+        registryCredential = 'dockerhub-credentials'
+      }
+      steps {
         script {
-          docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
-            dockerImage.push("latest")
+          docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
+            dockerImage.push('latest')
           }
         }
       }
@@ -41,11 +44,9 @@ pipeline {
     stage('Deploying React.js container to Kubernetes') {
       steps {
         script {
-          kubernetesDeploy(configs: "deployment.yaml", "service.yaml")
+          kubernetesDeploy(configs: ['deployment.yaml', 'service.yaml'])
         }
       }
     }
-
   }
-
 }
