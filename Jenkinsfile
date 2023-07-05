@@ -19,7 +19,12 @@ pipeline {
         url: 'https://github.com/amani-boussaa/jenkins-kubernetes-deployment.git'
       }
     }
-
+stage('Initialize Docker'){         
+	  def dockerHome = tool 'MyDocker'         
+	  env.PATH = "${dockerHome}/bin:${env.PATH}"     
+    }
+    
+   
     stage('Build image') {
       steps {
         script {
