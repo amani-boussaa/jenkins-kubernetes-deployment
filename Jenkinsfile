@@ -1,6 +1,12 @@
-
-node {
-    checkout scm
-    def customImage = docker.build("my-image:${env.BUILD_ID}")
-    customImage.push()
+pipeline {
+    agent {
+        docker { image 'node:18.16.0-alpine' }
+    }
+    stages {
+        stage('Test') {
+            steps {
+                sh 'node --version'
+            }
+        }
+    }
 }
