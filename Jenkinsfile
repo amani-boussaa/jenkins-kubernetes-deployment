@@ -4,12 +4,7 @@ pipeline {
     dockerImage = ""
   }
 
-  agent {
-    docker {
-      image 'docker:latest'
-      args '-v /var/run/docker.sock:/var/run/docker.sock'
-    }
-  }
+  agent { node { label 'docker' } }
 
   stages {
     stage('Checkout Source') {
