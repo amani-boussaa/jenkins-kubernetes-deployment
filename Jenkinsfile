@@ -4,7 +4,7 @@ pipeline {
     dockerImage = ""
   }
 
-agent none
+agent any
   stages {
     stage('Checkout Source') {
       steps {
