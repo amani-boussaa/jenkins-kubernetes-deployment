@@ -1,11 +1,14 @@
 pipeline {
-    agent {
-        docker { image 'node:18.16.0-alpine' }
-    }
+    agent any
     stages {
-        stage('Test') {
+        stage('Build image') {
             steps {
-                sh 'node --version'
+                echo 'Starting to build docker image'
+
+                script {
+                    def customImage = docker.build("my-image:${env.BUILD_ID}")
+                    customImage.push()
+                }
             }
         }
     }
